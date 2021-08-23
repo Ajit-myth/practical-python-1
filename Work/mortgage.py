@@ -13,7 +13,7 @@ extra_payment_end_month = 108
 while principal > 0:
     months = months + 1
     if months >= extra_payment_start_month and months <= extra_payment_end_month:
-        extra_payment = 1000.0
+        extra_payment = 1000.0   # This is the place where this can be made generic
     else:
         extra_payment = 0.0
         
@@ -25,6 +25,11 @@ while principal > 0:
         principal = principal * (1+rate/12) - (payment + extra_payment)
         
     print(months, round(total_paid,2), round(principal,2))
+    print(f"Installment number ")
+      #:\
+      #    Total amount paid = {total_paid:0.2f} \
+      #    Remaining principal amount = {principal:0.2f}'
+    #print(s)
  
 
 print('Months=',months)
