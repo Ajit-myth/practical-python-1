@@ -8,9 +8,11 @@ def read_portfolio(filename):
     with open(filename, 'rt') as f:
         p_dict = {}
         rows = csv.reader(f)
-        next(rows)
-        for row in rows:
-            p_dict = {'Name':row[0], 'Shares':int(row[1]), 'Price':float(row[2])}
+        header = next(rows)
+        for rowno, row in enumerate(rows, start=1):
+            p_dict = dict(zip(header,row))
+            #p_list = list(zip(p_dict.keys(), p_dict.values()))
+           # p_dict = {'Name':row[0], 'Shares':int(row[1]), 'Price':float(row[2])}
             portfolio.append(p_dict)
            
     return portfolio
@@ -28,10 +30,11 @@ def read_prices(filename):
 def make_report(portfolio, prices):
     report = []
     for n in portfolio:
-        if n['Name'] in prices:
-            chg = float(prices.get(n['Name'], 0.0)) - n['Price']
+        if n['name'] in prices:
+           # chg = float(prices.get(n['name'], 0.0)) - n['price']
+            chg = float((prices.get(n['name'], 0))) - float(n['price'])
            #result = {**n, **{'Change':chg}} #append the existing dict
-            report.append((n['Name'], n['Shares'], n['Price'], chg))
+            report.append((n['name'], n['shares'], n['price'], chg))
     return report
 
 def print_report(report):
@@ -39,10 +42,10 @@ def print_report(report):
     print('%10s %10s %10s %10s' % headers)
     print(('-' * 10 + " ") * len(headers))
     for r in report:
-         print('%10s %10d %10.2f %10.2f' % r)
+         print('%10s %10s %10s %10.2f' % r)
 
 
-portfolio = read_portfolio('Data/portfolio.csv')
+portfolio = read_portfolio('Data/portfoliodate.csv')
 prices = read_prices('Data/prices.csv')
 report = make_report(portfolio, prices)
 print_report(report)    
